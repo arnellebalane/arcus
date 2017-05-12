@@ -7,6 +7,8 @@ function connect(req, res) {
     clients[id] = { req, res };
     res.setHeader('Content-Type', 'text/event-stream');
     send(id, { event: 'connect', data: id });
+
+    req.on('close', () => disconnect(id));
     return id;
 }
 
@@ -18,4 +20,8 @@ function send(id, options={}) {
     res.write(data + '\n\n');
 }
 
-module.exports = { connect, send };
+function disconnect(id) {
+    delete clients[id];
+}
+
+module.exports = { connect, send, disconnect };
