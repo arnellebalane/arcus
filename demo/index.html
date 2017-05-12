@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Arcus Demo</title>
+    </head>
+
+    <body>
+        <h1>Arcus Demo</h1>
+        <a href="https://github.com/arnellebalane/arcus">https://github.com/arnellebalane/arcus</a>
+
+        <h2>Connected Clients: <span id="count">0</span></h2>
+
+        <script>
+            if ('EventSource' in window) {
+                const source = new EventSource('/stream');
+
+                source.addEventListener('disconnect', () => source.close());
+
+                const $count = document.querySelector('#count');
+                source.addEventListener('clientsupdate', (e) => {
+                    const count = JSON.parse(e.data);
+                    $count.textContent = count;
+                    document.title = `(${count}) Arcus Demo`;
+                });
+            }
+        </script>
+    </body>
+</html>
