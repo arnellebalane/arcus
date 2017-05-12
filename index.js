@@ -20,6 +20,18 @@ function connect(req, res) {
 }
 
 /**
+ *  Send the "disconnect" event to the SSE client identified by the given uuid
+ *  and then forget about it. Since currently this can't close the connection
+ *  from the server, the client should call EventSource.prototype.close() to
+ *  close the connection.
+ *  @param {String} id - The uuid of the SSE to be disconnected.
+ **/
+function disconnect(id) {
+    send(id, { event: 'disconnect', data: id });
+    delete clients[id];
+}
+
+/**
  *  Send data to an SSE client identified by the given uuid.
  *  @param {String} id - The uuid of the SSE client to send the data to.
  *  @param {Object} options - Describes properties of the server-sent event.
@@ -32,6 +44,9 @@ function connect(req, res) {
  *  https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format
  **/
 function send(id, options={}) {
+    if (!(id in clients)) {
+        return undefined;
+    }
     const res = clients[id].res;
     const data = Object.keys(options)
         .map((key) => `${key}: ${options[key]}`)
@@ -39,8 +54,4 @@ function send(id, options={}) {
     res.write(data + '\n\n');
 }
 
-function disconnect(id) {
-    delete clients[id];
-}
-
-module.exports = { connect, send, disconnect };
+module.exports = { connect, disconnect, send };
