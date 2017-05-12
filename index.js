@@ -1,4 +1,11 @@
+const EventEmitter = require('events');
 const uuid = require('uuid');
+
+const emitter = Object.create(EventEmitter.prototype, {
+    connect: { value: connect },
+    disconnect: { value: disconnect },
+    send: { value: send }
+});
 
 const clients = {};
 
@@ -16,6 +23,8 @@ function connect(req, res) {
     send(id, { event: 'connect', data: id });
 
     req.on('close', () => disconnect(id));
+
+    emitter.emit('connect', id);
     return id;
 }
 
@@ -29,6 +38,8 @@ function connect(req, res) {
 function disconnect(id) {
     send(id, { event: 'disconnect', data: id });
     delete clients[id];
+
+    emitter.emit('disconnect', id);
 }
 
 /**
@@ -52,6 +63,8 @@ function send(id, options={}) {
         .map((key) => `${key}: ${options[key]}`)
         .join('\n');
     res.write(data + '\n\n');
+
+    emitter.emit('send', id, options);
 }
 
-module.exports = { connect, disconnect, send };
+module.exports = emitter;
