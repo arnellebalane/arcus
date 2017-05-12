@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/arnellebalane/arcus/issues"
   },
-  "homepage": "https://github.com/arnellebalane/arcus#readme"
+  "homepage": "https://github.com/arnellebalane/arcus#readme",
+  "dependencies": {
+    "uuid": "^3.0.1"
+  }
 }
