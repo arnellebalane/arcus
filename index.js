@@ -6,7 +6,7 @@ function connect(req, res) {
     const id = uuid();
     clients[id] = { req, res };
     res.setHeader('Content-Type', 'text/event-stream');
-    send(id, { event: 'connect', data: 'you are now connected to arcus' });
+    send(id, { event: 'connect', data: id });
     return id;
 }
 
