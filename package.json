@@ -1,0 +1,23 @@
+{
+  "name": "arcus",
+  "version": "0.0.0",
+  "description": "server-sent events module for nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arnellebalane/arcus.git"
+  },
+  "keywords": [
+    "server-sent-events",
+    "sse"
+  ],
+  "author": "Arnelle Balane <arnellebalane@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arnellebalane/arcus/issues"
+  },
+  "homepage": "https://github.com/arnellebalane/arcus#readme"
+}
