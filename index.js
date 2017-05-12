@@ -19,6 +19,13 @@ const clients = {};
 function connect(req, res) {
     const id = uuid();
     clients[id] = { req, res };
+
+    // Nginx may choose to buffer the response chunks before sending it to the
+    // client which makes it appear to "hang". This header will turn off
+    // buffering of responses coming from SSE only, so we dont need to disable
+    // buffering in nginx entirely.
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Content-Type', 'text/event-stream');
     send(id, { event: 'connect', data: id });
 
