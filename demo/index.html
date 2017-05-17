@@ -13,6 +13,8 @@
         <p>All tabs/windows should update the number of connected clients, in realtime.</p>
         <h2>Connected Clients: <span id="count">0</span></h2>
 
+        <ul></ul>
+
         <script>
             if ('EventSource' in window) {
                 const source = new EventSource('/stream');
@@ -24,6 +26,13 @@
                     const count = JSON.parse(e.data);
                     $count.textContent = count;
                     document.title = `(${count}) Arcus Demo`;
+                });
+
+                const ul = document.querySelector('ul');
+                source.addEventListener('servermessage', (e) => {
+                    const li = document.createElement('li');
+                    li.textContent = e.data;
+                    ul.appendChild(li);
                 });
             }
         </script>

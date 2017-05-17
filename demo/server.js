@@ -28,3 +28,15 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, './index.html')));
 app.get('/stream', arcus.connect);
 
 app.listen(3000);
+
+
+
+process.stdin.setEncoding('utf8');
+process.stdin.on('readable', () => {
+    const chunk = process.stdin.read();
+    if (chunk) {
+        clients.forEach((client) => {
+            arcus.send(client, { event: 'servermessage', data: chunk.trim() });
+        });
+    }
+});
