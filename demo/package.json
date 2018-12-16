@@ -13,5 +13,13 @@
     "arcus": "github:arnellebalane/arcus",
     "express": "^4.15.2",
     "morgan": "^1.8.1"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "now": {
+    "engines": {
+      "node": "10"
+    }
   }
 }
